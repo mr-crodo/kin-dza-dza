@@ -1,0 +1,7 @@
+{
+    "app_id": "blog-aoesd",
+    "config_version": 20210101,
+    "name": "blog",
+    "location": "US-VA",
+    "deployment_model": "GLOBAL"
+}
