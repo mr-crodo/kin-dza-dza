@@ -1,20 +1,40 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
+const app = require('./app');
+const database = require('./database');
+const config = require('./config');
 
-const port = 3000
+database()
+    .then(info => {
+        console.log(`Connected to ${info.host}:${info.port}/${info.name}`);
+        app.listen(config.PORT, () =>
+            console.log(`Example app listening on port ${config.PORT}!`)
+        );
+    })
+    .catch(() => {
+        console.error('Unable to connect to database');
+        process.exit(1);
+    });
 
-app.set('view engine', 'ejs')
-app.use(bodyParser.urlencoded({ extended: true }))
 
-const data = 'hi';
 
-app.get('/', (req, res) => res.render('index', {data:data}))
-app.get('/create', (req, res) => res.render('create'))
-app.post('/create', (req, res) => {
-    console.log(req.body);
-})
+    
+    // const {MongoClient} = require('mongodb')
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-})
+    // const client = new MongoClient('mongodb+srv://mrcrodo:Umsjvn6517@blog.7mt1u.mongodb.net/Nodejs01?retryWrites=true&w=majority')
+
+    // const start = async () => {
+    //     try{
+    //         await client.connect()
+    //         console.log('Soyedinenie ustanovlenno qadan alem');
+    //         await client.db().createCollection('users')
+    //         const users = client.db().collection('users')
+    //         users.insertOne({ name: 'joni', age: 23})
+    //         const user = await users.findOne({name: 'joni'})
+    //         console.log(user);
+
+    //     } catch(e) {
+    //         console.log(e)
+
+    //     }
+    // }
+
+    // start()
