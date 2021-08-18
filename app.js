@@ -1,35 +1,24 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const Post = require('./models/post')
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
 
-const app = express()
 
-const port = 3000
+const app = express();
 
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
-}))
-
-const arr = ['hello', 'world', 'test'];
-
-app.get('/', (req, res) => res.render('index', {
-  arr: arr
-}))
-
-app.get('/create', (req, res) => res.render('create'))
-
-app.post('/create', (req, res) => {
-  const {title, body} = req.body;
+}));
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(
+  '/javascripts',
+  express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist'))
+);
 
 
-  Post.create({
-    title: title,
-    body: body
-  })
+app.get('/', (req, res) => {
+  res.render('index');
+});
 
-
-  res.redirect('/');
-})
 
 module.exports = app;
